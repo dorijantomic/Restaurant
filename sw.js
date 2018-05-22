@@ -1,17 +1,22 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.0.0/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox-sw.js');
 
-workbox.setConfig({
-    debug: true
-  });
 
+
+  workbox.routing.registerRoute(
+    new RegExp('restaurant.html(.*)'),
+    workbox.strategies.networkFirst({
+      cacheName: 'cache-restaurant-details',
+      cacheableResponse: {statuses: [0, 200]}
+    })
+  );
 workbox.precaching.precacheAndRoute([
   {
     "url": "css/styles.css",
-    "revision": "29104f66ac6e6bd284297305f6cbcaec"
+    "revision": "8148c24e6829af451603c2cf6740bd54"
   },
   {
     "url": "data/restaurants.json",
-    "revision": "f66ed22371a96f31fb6ebe65390ae186"
+    "revision": "d594ed8c5fc9de5c05bd3a8151a564d6"
   },
   {
     "url": "img/1_small.jpg",
@@ -163,22 +168,22 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "index.html",
-    "revision": "66f8aff9c1e83a923220c13b5383bb14"
+    "revision": "581f5f0b17673b7291da7068c026d89d"
   },
   {
     "url": "js/dbhelper.js",
-    "revision": "52f27ee1951ad686968945021d8f43f3"
+    "revision": "73decf2b49e0f5c82ab2313a6760d414"
   },
   {
     "url": "js/main.js",
-    "revision": "734e45430284720128766126a3cfbca0"
+    "revision": "87f1c0ba7afa42c682c4fbc0aff8aea2"
   },
   {
     "url": "js/restaurant_info.js",
-    "revision": "0feb87b96b216f9e9ee1fae8dbd00dc3"
+    "revision": "3ef419de94247311d9e7c01ac508d778"
   },
   {
     "url": "restaurant.html",
-    "revision": "bb03b0219b1626bdd282cb84eb93f726"
+    "revision": "c66432d1fe4875ef8b01d2089b72bd06"
   }
 ]);
