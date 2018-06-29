@@ -1,0 +1,31 @@
+{
+  "name": "mws-restaurant-stage-1-master",
+  "version": "1.0.0",
+  "description": "--- #### _Three Stage Course Material Project - Restaurant Reviews_",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp default && gulp generate-service-worker && http-server -p 8000"
+  },
+  "author": "Dorijan Tomić",
+  "license": "MIT",
+  "dependencies": {
+    "gulp-uglify": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-concat": "^2.6.1",
+    "gulp-image-resize": "^0.13.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-webp": "^3.0.0",
+    "imagemin-webp": "^4.1.0",
+    "run-sequence": "^2.2.1",
+    "workbox-build": "^3.3.1"
+  }
+}

@@ -1,0 +1,6 @@
+.vscode
+image_phone
+image_ready
+/node_modules
+phone_images_webp
+workbox-config.js
