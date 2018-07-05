@@ -118,6 +118,18 @@ gulp.task('minify-restaurant-info', () => {
         .pipe(gulp.dest('dist/js'))
 });
 
+gulp.task('minify-idb', () => {
+    gulp.src([
+         'src/js/idb.js'
+    ])
+        .pipe(sourcemaps.init())
+        .pipe(babel({
+            presets:['env']
+        }))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('dist/js'))
+});
 
 /*
 gulp.task('copy-dbhelper', () => {
@@ -151,10 +163,10 @@ gulp.task('sequence', (callback) => {
 })
 
 gulp.task('copyImage', () => {
-    gulp.src('src/img/*.jpg')
+    gulp.src('src/img/*.webp')
     .pipe(gulp.dest('dist/img'))
 })
 
 gulp.task('default', (callback) => {
-    runSequence('clean', ['copyHtml', 'minify-css','copyImage'], ['minify-main', 'minify-restaurant-info'], 'generate-service-worker', callback);
+    runSequence('clean', ['copyHtml', 'minify-css','copyImage'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
 })

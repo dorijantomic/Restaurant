@@ -39,7 +39,6 @@ const fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     select.append(option);
   });
 }
-
 /**
  * Fetch all cuisines and set their HTML.
  */
@@ -71,7 +70,7 @@ const fillCuisinesHTML = (cuisines = self.cuisines) => {
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+const initMap = () => {
   let loc = {
     lat: 40.722216,
     lng: -73.987501
@@ -84,6 +83,9 @@ window.initMap = () => {
   updateRestaurants();
 }
 
+document.getElementById('mapButton').addEventListener('click', () => {
+  document.getElementById('map').className = 'open';
+});
 /**
  * Update page and map for current restaurants.
  */
@@ -142,6 +144,7 @@ const createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.alt = restaurant.alt;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
   li.append(image);
   
 

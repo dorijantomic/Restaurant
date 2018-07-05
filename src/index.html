@@ -17,9 +17,11 @@
   </header>
   
   <div class="container">
+    
   <main id="maincontent" role="main">
     <section id="map-container" class="google-map">
       <div id="map" role="application" aria-roledescription="Restaurants Google Map" aria-label="Map"></div>
+      <button id="mapButton" name="show map">Show Google Map</button>
     </section>
     <section>
       <div class="filter-options">
@@ -34,9 +36,9 @@
       <ul id="restaurants-list"></ul>
     </section>
   </main>
-
-  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script src="js/idb.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Oc02MY7m9RIzGezATbpTQndaRsfMdpY&libraries=places&callback=initMap"></script>
 
 
@@ -57,6 +59,8 @@
   });
 }
   </script>
+   
+   
 </body>
 
 </html>

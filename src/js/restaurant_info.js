@@ -4,7 +4,7 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
-window.initMap = () => {
+const initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
       console.error(error);
@@ -19,6 +19,10 @@ window.initMap = () => {
     }
   });
 }
+
+document.getElementById('mapButton').addEventListener('click', () => {
+  document.getElementById('map').className = 'open';
+}); 
 
 /**
  * Get current restaurant from page URL.
@@ -60,6 +64,8 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.className = 'restaurant-img'
   image.alt = restaurant.alt;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const imgSrcset = DBHelper.smallImageUrlForRestaurant(restaurant);
+  image.srcset = imgSrcset;
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

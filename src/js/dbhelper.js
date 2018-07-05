@@ -1,7 +1,34 @@
+
+// Opening a database
+const dbPromise = idb.open("rr-db",1 ,(upgradeDb) => {
+  // checks if the object store already exists
+  if(!upgradeDb.objectStoreNames.contains('restaurants')){
+  const idOS = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'})
+  idOS.createIndex('id', 'id' ,{unique: true}); 
+  }
+});
+
+const altTags = {
+  1:"bustling chinese restaurant",
+  2:"rounded pizza",
+  3:"shiny empty dining area",
+  4:"entrance of a restaurant with neon signs" ,
+  5:"crowded restaurant with an open view of the kitchen",
+  6:"crowded familly barbacue restaurant",
+  7:"entrance to a burger place",
+  8:"entrance to the dutch with a blossomed tree next to it",
+  9:"people eating ramen noodles" ,
+  10:"empty restaurant with white bar stools"
+}
+
+
+
+
 /**
  * Common database helper functions.
  */
 class DBHelper {
+  
 
   /**
    * Database URL.
@@ -33,19 +60,78 @@ class DBHelper {
   }
 
   */
- 
-  static fetchRestaurants(callback) {
-    debugger;
-    return fetch(`${DBHelper.DATABASE_URL}/restaurants`)
-    .then((res) => {
-      return res.json();
-    }).then((res) => {
-      const restaurants = res;
-      callback(null,restaurants)
-    }).catch((error) => {
-      callback(error,null)
-    })
-  }
+
+
+  // static fetchRestaurants(callback) {
+  //   debugger;
+  //   dbPromise.then((db) => {
+  //     debugger;
+  //     const tx = db.transaction('restaurants', 'readwrite');
+  //     const restaurantsStore = tx.objectStore('restaurants');
+  //     return restaurantsStore.getAll()
+  //   }).then(() => {
+  //     debugger;
+  //     return fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+  //     .then((res) => {
+  //       debugger;
+  //       return res.json();
+  //     }).then((res) => {
+  //       debugger;
+  //       const restaurants = res;
+  //       restaurants.forEach((restaurant, index) => {
+  //         debugger;
+  //         // for each restaurant add an alt atribute from the altTags objest
+  //         if(restaurant.id){
+  //           debugger;
+  //           restaurant.alt = altTags[restaurant.id]
+  //         }
+  //       })
+  //       callback(null,restaurants)
+  //     }).catch((error) => {
+  //       callback(error,null)
+  //     })
+  //   })
+   
+  // }
+
+    static fetchRestaurants(callback) {
+      debugger;
+      dbPromise.then((db) => {
+        const tx = db.transaction('restaurants', 'readwrite');
+        const restaurantsStore = tx.objectStore('restaurants');
+        return restaurantsStore.getAll()
+      }).then((restaurants) => {
+        if(restaurants.length) {
+          callback(null,restaurants) 
+        } else {
+          fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+          .then((res) => {
+            return res.json();
+          }).then((res) => {
+            debugger;
+            const restaurants = res;
+            restaurants.forEach((restaurant,index) => {
+              debugger;
+              if(restaurant.id) {
+                restaurant.photograph_small = restaurant.photograph + 's';
+                restaurant.photograph_medium = restaurant.photograph + 'm';
+                debugger;
+                restaurant.alt = altTags[restaurant.id]
+              }
+            })
+            dbPromise.then((db) => {
+              const tx = db.transaction('restaurants', 'readwrite');
+              const restaurantsStore = tx.objectStore('restaurants');
+              restaurants.forEach(restaurant=>restaurantsStore.put(restaurant))
+            })
+            callback(null,restaurants);
+          })
+        }
+      })
+    }
+  
+  
+
 
   /**
    * Fetch a restaurant by its ID.
@@ -166,9 +252,13 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`img/${restaurant.id}.jpg`);
+    debugger;
+    return (`img/${restaurant.id}.webp`);
   }
 
+  static smallImageUrlForRestaurant(restaurant) {
+    return(`img/${restaurant.id}.webp 1000w, img/${restaurant.id}_small.webp 500w `)
+  }
   /**
    * Map marker for a restaurant.
    */
