@@ -1,5 +1,7 @@
 
 // Opening a database
+
+
 const dbPromise = idb.open("rr-db",1 ,(upgradeDb) => {
   // checks if the object store already exists
   if(!upgradeDb.objectStoreNames.contains('restaurants')){
@@ -93,6 +95,12 @@ class DBHelper {
   //   })
    
   // }
+  // Opening a database
+
+
+    
+ 
+ 
 
     static fetchRestaurants(callback) {
       debugger;
@@ -111,11 +119,7 @@ class DBHelper {
             debugger;
             const restaurants = res;
             restaurants.forEach((restaurant,index) => {
-              debugger;
               if(restaurant.id) {
-                restaurant.photograph_small = restaurant.photograph + 's';
-                restaurant.photograph_medium = restaurant.photograph + 'm';
-                debugger;
                 restaurant.alt = altTags[restaurant.id]
               }
             })
@@ -256,8 +260,13 @@ class DBHelper {
     return (`img/${restaurant.id}.webp`);
   }
 
+
   static smallImageUrlForRestaurant(restaurant) {
-    return(`img/${restaurant.id}.webp 1000w, img/${restaurant.id}_small.webp 500w `)
+    return(`
+     img/${restaurant.id}_w_300.webp 300w,
+     img/${restaurant.id}_w_433.webp 433w,  
+     img/${restaurant.id}_w_653.webp 653w
+    `)
   }
   /**
    * Map marker for a restaurant.

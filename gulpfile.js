@@ -10,43 +10,42 @@ const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const cleanCSS = require('gulp-clean-css');
 const del = require('del');
+const responsive = require('gulp-responsive')
 
 // TASKS go here
 
-gulp.task('image-resize', ()=> 
- gulp.src('images/**/*.jpg')
-    .pipe(imageResize({
-        width:320,
-        height:240,
-        crop:true,
-        upscale:true
-    }))
-    .pipe(gulp.dest("image_phone"))
-);
+gulp.task('img-resize',  () => {
+    return gulp.src('src/img/*.webp')
+      .pipe(responsive({
+        // Resize all JPEG/WebP images to sizes: 300, 433, 552, 653, 752, 800.
+        '*.webp': [{
+          width: 300,
+          rename: { suffix: '_w_300' },
+        }, {
+          width: 433,
+          rename: { suffix: '_w_433' },
+        }, {
+          width: 653,
+          rename: { suffix: '_w_653' },
+        }, {
+          width: 800,
+          rename: { suffix: '_w_800' },
+        }],
+      }, {
+   
+        quality: 70,
+        progressive: true,
+        compressionLevel: 6,
+        withMetadata: false,
+      }))
+      .pipe(gulp.dest('dist/img'));
+  });
 
-gulp.task("web-comp", () =>
-    gulp.src('image_phone/**/*.jpg')
+gulp.task("img-webp", () =>
+    gulp.src(['src/img/1.jpg', 'src/img/2.jpg', 'src/img/3.jpg', 'src/img/4.jpg', 'src/img/5.jpg', 'src/img/6.jpg', 'src/img/7.jpg', 'src/img/8.jpg', 'src/img/9.jpg', 'src/img/10.jpg'])
         .pipe(webp())
-        .pipe(gulp.dest('phone_images_webp'))
+        .pipe(gulp.dest('src/img'))
 );
-
-
-gulp.task('image-compress', () =>
-    gulp.src("image_ready/*")
-    .pipe(imagemin([
-        imagemin.gifsicle({interlaced: true}),
-        imagemin.jpegtran({progressive: true}),
-        imagemin.optipng({optimizationLevel: 5}),
-        imagemin.svgo({
-            plugins: [
-                {removeViewBox: true},
-                {cleanupIDs: false}
-            ]
-        })
-    ]))
-        .pipe(gulp.dest('image_compressed'))
-);
-
 
 
 // Tasks go here
@@ -54,7 +53,7 @@ gulp.task('generate-service-worker', () => {
     return workboxBuild.injectManifest({
         globDirectory: 'dist',
         globPatterns: [
-            '**/*.{html,css,js,jpg}'
+            '**/*.{html,css,js,webp}'
         ],
         swDest: 'dist/sw.js',
         swSrc: 'src/src-sw.js',
@@ -80,6 +79,11 @@ gulp.task('minify-css',() => {
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('dist/css'));
   });
+
+gulp.task('copy-pwa-css', () => {
+    return gulp.src('src/css/progressive-image.min.css')
+    .pipe(gulp.dest('dist/css'));
+})
   
 
 gulp.task('copyHtml', () => {
@@ -87,6 +91,15 @@ gulp.task('copyHtml', () => {
         .pipe(gulp.dest('dist'))
 });
 
+gulp.task('copy-pwa-js', () => {
+    return gulp.src('src/js/progressive-image.min.js')
+    .pipe(gulp.dest('dist/js'))
+});
+
+gulp.task('copy-preview-img', () => {
+    gulp.src('src/img/preview/*.webp')
+    .pipe(gulp.dest('dist/img/preview/'));
+});
 
 gulp.task('minify-main', () => {
     gulp.src([
@@ -168,5 +181,5 @@ gulp.task('copyImage', () => {
 })
 
 gulp.task('default', (callback) => {
-    runSequence('clean', ['copyHtml', 'minify-css','copyImage'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
+    runSequence('clean','img-webp', 'img-resize', ['copyHtml', 'minify-css','copyImage', 'copy-pwa-css', 'copy-pwa-js', 'copy-preview-img'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
 })

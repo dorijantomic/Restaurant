@@ -140,13 +140,20 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 const createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  const placeHolder = document.createElement('a');
+  placeHolder.href =  `img/${restaurant.id}.webp`;
+  placeHolder.dataset.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
+  placeHolder.className = `progressive replace`;
+  placeHolder.tabIndex = '-1';
+
+
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.alt = restaurant.alt;
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  image.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
-  li.append(image);
+  image.src = `img/preview/${restaurant.id}.tiny.webp`
+  image.className = `preview restaurant-img`;
+  image.alt = `${restaurant.alt}`;
   
+  li.append(placeHolder);
+  placeHolder.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
@@ -160,10 +167,10 @@ const createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
-  const more = document.createElement('a');
+  const more = document.createElement('a'); 
   more.innerHTML = 'View Details';
   more.setAttribute('aria-label',`View Details about ${restaurant.name}`);
-  more.href = DBHelper.urlForRestaurant(restaurant);
+  more.href = DBHelper.urlForRestaurant(restaurant);  
   li.append(more)
   
 

@@ -239,7 +239,7 @@ nav h1 a {
 }
 #restaurant-img {
 
- max-width: 100%;
+ max-width: 800px;
 }
 #restaurant-address {
   display: flex;
@@ -339,6 +339,13 @@ tr:hover {
   top: 0px;
 }
 
+
+a.progressive {
+  border: none !important;
+  background-color:#ffffff !important;
+  display: flex !important;
+  flex-flow: column !important;
+}
 /*
 Indexed DB database CSS
 
