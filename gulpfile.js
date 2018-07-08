@@ -101,6 +101,11 @@ gulp.task('copy-preview-img', () => {
     .pipe(gulp.dest('dist/img/preview/'));
 });
 
+gulp.task('copy-touch-png', () => {
+    gulp.src('src/img/touch/*.png')
+    .pipe(gulp.dest('dist/img/touch/'));
+});
+
 gulp.task('minify-main', () => {
     gulp.src([
          'src/js/dbhelper.js','src/js/main.js'   
@@ -144,6 +149,10 @@ gulp.task('minify-idb', () => {
         .pipe(gulp.dest('dist/js'))
 });
 
+gulp.task('copy-manifest', () => {
+    gulp.src('src/manifest.json')
+    .pipe(gulp.dest('dist'));
+})
 /*
 gulp.task('copy-dbhelper', () => {
     gulp.src('src/js/dbhelper.js')
@@ -181,5 +190,5 @@ gulp.task('copyImage', () => {
 })
 
 gulp.task('default', (callback) => {
-    runSequence('clean','img-webp', 'img-resize', ['copyHtml', 'minify-css','copyImage', 'copy-pwa-css', 'copy-pwa-js', 'copy-preview-img'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
+    runSequence('clean','img-webp', 'img-resize', ['copyHtml', 'minify-css','copyImage', 'copy-pwa-css', 'copy-pwa-js', 'copy-preview-img', 'copy-touch-png', 'copy-manifest'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
 })

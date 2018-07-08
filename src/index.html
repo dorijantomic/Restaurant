@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+   <meta name="Description" content="The greatest Restaurant Reviews from your area">
+   <meta name="theme-color" content="#3397db">
    <link rel="stylesheet" href="css/progressive-image.min.css">
+   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link rel="stylesheet" href="css/styles.css">
   
@@ -22,16 +26,16 @@
     
   <main id="maincontent" role="main">
     <section id="map-container" class="google-map">
-      <div id="map" role="application" aria-roledescription="Restaurants Google Map" aria-label="Map"></div>
-      <button id="mapButton" name="show map">Show Google Map</button>
+      <div id="map" role="application" aria-label="Restaurants Google Map" aria-label="Map"></div>
+      <button id="mapButton" name="show map" aria-label="Show Google map">Show Google Map</button>
     </section>
     <section>
       <div class="filter-options">
         <h2>Filter Results</h2>
-        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()"k>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()" aria-label="Select Neighborhood">
           <option value="all" title="Select a neighborhood">All Neighborhoods</option>
         </select>
-        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()" aria-label="Select Quisine">
           <option value="all">All Cuisines</option>
         </select>
       </div>
