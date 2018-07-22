@@ -81,7 +81,7 @@ gulp.task('minify-css',() => {
   });
 
 gulp.task('copy-pwa-css', () => {
-    return gulp.src('src/css/progressive-image.min.css')
+    return gulp.src(['src/css/progressive-image.min.css'])
     .pipe(gulp.dest('dist/css'));
 })
   
@@ -92,7 +92,7 @@ gulp.task('copyHtml', () => {
 });
 
 gulp.task('copy-pwa-js', () => {
-    return gulp.src('src/js/progressive-image.min.js')
+    return gulp.src(['src/js/progressive-image.min.js'])
     .pipe(gulp.dest('dist/js'))
 });
 
@@ -153,6 +153,12 @@ gulp.task('copy-manifest', () => {
     gulp.src('src/manifest.json')
     .pipe(gulp.dest('dist'));
 })
+
+
+gulp.task('copy-Reviews-Database', () => {
+    gulp.src('src/js/reviewsDatabase.js')
+    .pipe(gulp.dest('dist/js'));
+})
 /*
 gulp.task('copy-dbhelper', () => {
     gulp.src('src/js/dbhelper.js')
@@ -180,9 +186,6 @@ gulp.task('watch', () => {
     gulp.watch('src/js/*.js', ['scripts']);
 });
 
-gulp.task('sequence', (callback) => {
-    runSquence('clean', ['copyHtml', 'minify-css'], ['minify-main', 'minify-restaurant-info', 'copy-dbhelper'], callback)
-})
 
 gulp.task('copyImage', () => {
     gulp.src('src/img/*.webp')
@@ -190,5 +193,7 @@ gulp.task('copyImage', () => {
 })
 
 gulp.task('default', (callback) => {
-    runSequence('clean','img-webp', 'img-resize', ['copyHtml', 'minify-css','copyImage', 'copy-pwa-css', 'copy-pwa-js', 'copy-preview-img', 'copy-touch-png', 'copy-manifest'], ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
+    runSequence('clean','img-webp', 'img-resize', 
+        ['copyHtml', 'minify-css','copyImage', 'copy-pwa-css', 'copy-pwa-js', 'copy-preview-img','copy-Reviews-Database', 'copy-touch-png', 'copy-manifest'], 
+        ['minify-main', 'minify-restaurant-info', 'minify-idb'], 'generate-service-worker', callback);
 })

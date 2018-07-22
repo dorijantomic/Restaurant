@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <!-- Normalize.css for better cross-browser consistency -->
+  <!-- manifest.json required by Chrome to show the Add to Homescreen button  https://developers.google.com/web/fundamentals/web-app-manifest/-->
   <link rel="manifest" href="manifest.json">
+
+  <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
@@ -52,6 +54,17 @@
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
+    <div id="reviews-form">
+        <label>
+            Name
+            <input id="name" required />
+        </label>
+        <label>
+            Post review
+            <textarea id="comments" required></textarea>
+        </label>
+        <button type="submit" id="add-review-button"> Submit review </button>
+    </div>
     <!-- End reviews -->
   </main>
   <!-- End main -->
@@ -64,14 +77,25 @@
 
   <!-- Beginning scripts -->
   <!-- Database helpers -->
+  <!--js/idb.js IndexedDB is a low-level API for client-side storage of significant amounts of structured data https://github.com/jakearchibald/idb -->
   <script type="text/javascript" src="js/idb.js"></script>
-  <!-- Main javascript file -->
   <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Oc02MY7m9RIzGezATbpTQndaRsfMdpY&libraries=places&callback=initMap"></script>
+  <script type="text/javascript" src="js/reviewsDatabase.js"></script>
   <!-- End scripts -->
-</div>
-<script>
+  <script>
+    if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(registration => {
+        console.log(`Service Worker registered! Scope: ${registration.scope}`);
+      })
+      .catch(err => {
+        console.log(`Service Worker registration failed: ${err}`);
+      });
+  });
+}
   </script>
 </body>
 
