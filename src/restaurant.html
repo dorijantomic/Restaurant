@@ -57,13 +57,23 @@
     <div id="reviews-form">
         <label>
             Name
-            <input id="name" required />
+            <input id="name" type="text" required />
+        </label>
+        <label>
+          Select a rating for the review
+          <select name="rating" id="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </label>
         <label>
             Post review
             <textarea id="comments" required></textarea>
         </label>
-        <button type="submit" id="add-review-button"> Submit review </button>
+        <button type="submit" id="post-review-button"> Submit review </button>
     </div>
     <!-- End reviews -->
   </main>
