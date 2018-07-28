@@ -53,17 +53,28 @@ class DBHelper {
       const restaurantsStore = tx.objectStore('restaurants');
       return restaurantsStore.getAll()
     }).then((restaurants) => {
-      if (restaurants.length) {
+      if (!navigator.onLine) {
         callback(null, restaurants)
       } else {
         fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) => {
+            debugger;
             return res.json();
           }).then((res) => {
+            debugger;
             const restaurants = res;
-            restaurants.forEach((restaurant, index) => {
+            restaurants.forEach((restaurant) => {
               if (restaurant.id) {
                 restaurant.alt = altTags[restaurant.id]
+              }
+
+              if(restaurant.is_favorite === "false" ) {
+                const button = document.getElementById('favorite-button');
+      
+                debugger; 
+                console.log('restaurant is faulse ' + restaurant.name)
+              } else {
+                console.log('Restaurant is true ' + restaurant.name)
               }
             })
             dbPromise.then((db) => {

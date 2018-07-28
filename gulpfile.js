@@ -188,7 +188,7 @@ gulp.task('watch', () => {
 
 
 gulp.task('copyImage', () => {
-    gulp.src('src/img/*.webp')
+    gulp.src(['src/img/*.webp', 'src/img/*.png'])
     .pipe(gulp.dest('dist/img'))
 })
 

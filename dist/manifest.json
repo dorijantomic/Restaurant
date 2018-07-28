@@ -1,0 +1,21 @@
+{
+    "short_name": "RestoReviews",
+    "name": "MWS Restaurant Reviews",
+    "description": "Mobile Web Specialist Nanodegree - Restaurant Reviews App",
+    "start_url": "index.html",
+    "theme_color": "#3397db",
+    "background_color": "#fafafa",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "img/touch/homescreenIcon_192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "img/touch/homescreenIcon_512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
