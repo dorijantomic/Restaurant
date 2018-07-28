@@ -75,7 +75,9 @@ const fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
+  /*
   fillReviewsHTML();
+  */
 }
 
 /**
@@ -100,14 +102,17 @@ const fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hour
 
 /**
  * Create all reviews HTML and add them to the webpage.
- */
+
 const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+  
+
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
   container.appendChild(title);
 
   if (!reviews) {
+
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
     container.appendChild(noReviews);
@@ -120,25 +125,30 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   container.appendChild(ul);
 }
 
+ */
 /**
  * Create review HTML and add it to the webpage.
  */
 const createReviewHTML = (review) => {
+  debugger;
   const li = document.createElement('li');
   const name = document.createElement('p');
-  name.innerHTML = review.name;
+  name.insertAdjacentHTML('beforeend', review.name);
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  const reviewDate = new Date(review.createdAt);
+  date.insertAdjacentHTML('beforeend', reviewDate.toDateString());
   li.appendChild(date);
 
+
   const rating = document.createElement('p');
-  rating.innerHTML = `Rating: ${review.rating}`;
+  rating.insertAdjacentHTML('beforeend', `Rating: ${review.rating}`);
   li.appendChild(rating);
 
   const comments = document.createElement('p');
-  comments.innerHTML = review.comments;
+
+  comments.insertAdjacentHTML('beforeend', review.comments);
   li.appendChild(comments);
 
   return li;

@@ -5,6 +5,19 @@ let restaurants,
 var map
 var markers = []
 
+// Opening a database
+const dbPromise = idb.open("rr-db", 1, (upgradeDb) => {
+  // checks if the object store already exists
+  if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+    const idOS = upgradeDb.createObjectStore('restaurants', {
+      keyPath: 'id'
+    })
+    idOS.createIndex('id', 'id', {
+      unique: true
+    });
+  }
+});
+
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -141,12 +154,83 @@ const fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 const createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  const favoriteButton = document.createElement('button');
+  favoriteButton.className = 'fav-button';
+  favoriteButton.value = restaurant.is_favorite;
+  if(favoriteButton.value === 'false' || favoriteButton.value === false) {
+    favoriteButton.innerHTML = `<img src = img/gray-heart.png alt = 'favorite button image'>`;
+    favoriteButton.setAttribute('Aria-label', 'Set as favorite')
+    
+  } else {
+    favoriteButton.innerHTML = `<img src = img/orange-heart.png>`;
+    favoriteButton.setAttribute('Aria-label', 'Remove from favorites')
+  }
+   
+  favoriteButton.onclick = function() {
+    debugger;
+    if(navigator.onLine) {
+      if(favoriteButton.value === 'false'  || favoriteButton.value === false) {
+        debugger;
+        favoriteButton.value = 'true';
+        favoriteButton.setAttribute('Aria-label', 'Remove from favorites')
+        debugger;
+        fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=true`, {method: 'PUT'})
+        .then((res)=> {return res.json})
+        .then(() => {
+          
+          
+          location.href=location.href})
+        
+      } else {
+        debugger;
+        favoriteButton.value = 'false';
+        favoriteButton.setAttribute('Aria-label', 'Set as favorite')
+        fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=false`, {method: 'PUT'})
+        .then((res)=> {return res.json})
+        .then(() => {location.href=location.href})
+      }
+    } else {
+     
+      if(favoriteButton.value === 'false' || favoriteButton.value === false) {
+        favoriteButton.value = 'true';
+        favoriteButton.setAttribute('Aria-label', 'Remove from favorites')
+        fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=true`, {method: 'PUT'})
+        .then((res)=> {
+          dbPromise.then((db) => {
+            const tx = db.transaction('restaurants', 'readwrite')
+            const restaurantsStore = tx.objectStore('restaurants');
+            restaurant.is_favorite = 'true';
+            restaurantsStore.put(restaurant);
+          })
+          return res.json})
+        .then(() => {location.href=location.href})
+        
+      } else {
+        favoriteButton.value = 'false';
+        favoriteButton.setAttribute('Aria-label', 'Set as favorite')
+        fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=false`, {method: 'PUT'})
+          .then((res)=> {
+            dbPromise.then((db) => {
+              const tx = db.transaction('restaurants', 'readwrite')
+              const restaurantsStore = tx.objectStore('restaurants');
+              restaurant.is_favorite = 'false';
+              restaurantsStore.put(restaurant);
+            })
+            return res.json})
+          .then(() => {location.href=location.href})
+  
+      }
+  
+    
+    }
+    }
+    
+  li.appendChild(favoriteButton)
   const placeHolder = document.createElement('a');
   placeHolder.href =  `img/${restaurant.id}.webp`;
   placeHolder.dataset.srcset = DBHelper.smallImageUrlForRestaurant(restaurant);
   placeHolder.className = `progressive replace`;
   placeHolder.tabIndex = '-1';
-
 
   const image = document.createElement('img');
   image.src = `img/preview/${restaurant.id}.tiny.webp`
@@ -176,7 +260,9 @@ const createRestaurantHTML = (restaurant) => {
   
 
   return li
+
 }
+
 
 /**
  * Add markers for current restaurants to the map.
@@ -191,4 +277,6 @@ const addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+
 

@@ -18,3 +18,15 @@ workbox.routing.registerRoute(
   })
 );
 workbox.precaching.precacheAndRoute([]);
+
+const bgSyncPlugin = new workbox.backgroundSync.Plugin('dashboardr-queue');
+
+const networkWithBackgroundSync = new workbox.strategies.NetworkOnly({
+  plugins: [bgSyncPlugin],
+});
+
+workbox.routing.registerRoute(
+  'http://localhost:1337/reviews/',
+  networkWithBackgroundSync,
+  'POST'
+);

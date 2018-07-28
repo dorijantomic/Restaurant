@@ -1,26 +1,14 @@
-
-// Opening a database
-
-
-const dbPromise = idb.open("rr-db",1 ,(upgradeDb) => {
-  // checks if the object store already exists
-  if(!upgradeDb.objectStoreNames.contains('restaurants')){
-  const idOS = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'})
-  idOS.createIndex('id', 'id' ,{unique: true}); 
-  }
-});
-
 const altTags = {
-  1:"bustling chinese restaurant",
-  2:"rounded pizza",
-  3:"shiny empty dining area",
-  4:"entrance of a restaurant with neon signs" ,
-  5:"crowded restaurant with an open view of the kitchen",
-  6:"crowded familly barbacue restaurant",
-  7:"entrance to a burger place",
-  8:"entrance to the dutch with a blossomed tree next to it",
-  9:"people eating ramen noodles" ,
-  10:"empty restaurant with white bar stools"
+  1: "bustling chinese restaurant",
+  2: "rounded pizza",
+  3: "shiny empty dining area",
+  4: "entrance of a restaurant with neon signs",
+  5: "crowded restaurant with an open view of the kitchen",
+  6: "crowded familly barbacue restaurant",
+  7: "entrance to a burger place",
+  8: "entrance to the dutch with a blossomed tree next to it",
+  9: "people eating ramen noodles",
+  10: "empty restaurant with white bar stools"
 }
 
 
@@ -30,7 +18,9 @@ const altTags = {
  * Common database helper functions.
  */
 class DBHelper {
-  
+
+
+
 
   /**
    * Database URL.
@@ -41,100 +31,64 @@ class DBHelper {
     return `http://localhost:${port}`;
   }
 
-  /**
-   * Fetch all restaurants.
-   */
-  /*
+
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+
+    // Opening a database
+    const dbPromise = idb.open("rr-db", 1, (upgradeDb) => {
+      // checks if the object store already exists
+      if (!upgradeDb.objectStoreNames.contains('restaurants')) {
+        const idOS = upgradeDb.createObjectStore('restaurants', {
+          keyPath: 'id'
+        })
+        idOS.createIndex('id', 'id', {
+          unique: true
+        });
       }
-    };
-    xhr.send();
-  }
+    });
 
-  */
-
-
-  // static fetchRestaurants(callback) {
-  //   debugger;
-  //   dbPromise.then((db) => {
-  //     debugger;
-  //     const tx = db.transaction('restaurants', 'readwrite');
-  //     const restaurantsStore = tx.objectStore('restaurants');
-  //     return restaurantsStore.getAll()
-  //   }).then(() => {
-  //     debugger;
-  //     return fetch(`${DBHelper.DATABASE_URL}/restaurants`)
-  //     .then((res) => {
-  //       debugger;
-  //       return res.json();
-  //     }).then((res) => {
-  //       debugger;
-  //       const restaurants = res;
-  //       restaurants.forEach((restaurant, index) => {
-  //         debugger;
-  //         // for each restaurant add an alt atribute from the altTags objest
-  //         if(restaurant.id){
-  //           debugger;
-  //           restaurant.alt = altTags[restaurant.id]
-  //         }
-  //       })
-  //       callback(null,restaurants)
-  //     }).catch((error) => {
-  //       callback(error,null)
-  //     })
-  //   })
    
-  // }
-  // Opening a database
-
-
-    
- 
- 
-
-    static fetchRestaurants(callback) {
-      debugger;
-      dbPromise.then((db) => {
-        const tx = db.transaction('restaurants', 'readwrite');
-        const restaurantsStore = tx.objectStore('restaurants');
-        return restaurantsStore.getAll()
-      }).then((restaurants) => {
-        if(restaurants.length) {
-          callback(null,restaurants) 
-        } else {
-          fetch(`${DBHelper.DATABASE_URL}/restaurants`)
+    dbPromise.then((db) => {
+      const tx = db.transaction('restaurants', 'readwrite');
+      const restaurantsStore = tx.objectStore('restaurants');
+      return restaurantsStore.getAll()
+    }).then((restaurants) => {
+      if (!navigator.onLine) {
+        callback(null, restaurants)
+      } else {
+        fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) => {
+            debugger;
             return res.json();
           }).then((res) => {
             debugger;
             const restaurants = res;
-            restaurants.forEach((restaurant,index) => {
-              if(restaurant.id) {
+            restaurants.forEach((restaurant) => {
+              if (restaurant.id) {
                 restaurant.alt = altTags[restaurant.id]
+              }
+
+              if(restaurant.is_favorite === "false" ) {
+                const button = document.getElementById('favorite-button');
+      
+                debugger; 
+                console.log('restaurant is faulse ' + restaurant.name)
+              } else {
+                console.log('Restaurant is true ' + restaurant.name)
               }
             })
             dbPromise.then((db) => {
               const tx = db.transaction('restaurants', 'readwrite');
               const restaurantsStore = tx.objectStore('restaurants');
-              restaurants.forEach(restaurant=>restaurantsStore.put(restaurant))
+              restaurants.forEach(restaurant => restaurantsStore.put(restaurant))
             })
-            callback(null,restaurants);
+            callback(null, restaurants);
           })
-        }
-      })
-    }
-  
-  
+      }
+    })
+  }
+
+
 
 
   /**
@@ -256,13 +210,12 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    debugger;
     return (`img/${restaurant.id}.webp`);
   }
 
 
   static smallImageUrlForRestaurant(restaurant) {
-    return(`
+    return (`
      img/${restaurant.id}_w_300.webp 300w,
      img/${restaurant.id}_w_433.webp 433w,  
      img/${restaurant.id}_w_653.webp 653w
@@ -277,8 +230,8 @@ class DBHelper {
       title: restaurant.name,
       url: DBHelper.urlForRestaurant(restaurant),
       map: map,
-      animation: google.maps.Animation.DROP}
-    );
+      animation: google.maps.Animation.DROP
+    });
     return marker;
   }
 
