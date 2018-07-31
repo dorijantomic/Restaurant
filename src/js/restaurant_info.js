@@ -130,7 +130,6 @@ const fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  * Create review HTML and add it to the webpage.
  */
 const createReviewHTML = (review) => {
-  debugger;
   const li = document.createElement('li');
   const name = document.createElement('p');
   name.insertAdjacentHTML('beforeend', review.name);
