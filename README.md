@@ -1,4 +1,6 @@
 # MWS Project 3 - Performant Web Apps
+![Dorijan Tomić Certificate of completion](http://i.prntscr.com/ZVyTo8N0Q8WLAiZ7xTTxiw.png)
+
 
 ## Goal of the Project
 In project 3 we'll add a responsive form to allow users to create their own reviews. If the app is offline, your form will defer updating to the remote database until a connection is established. Users are now also able to mark a restaurant as a favorite. Finally, the site will be optimized to meet even stricter performance benchmarks than the previous project, these tests are done using Lighthouse.
