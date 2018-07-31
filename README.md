@@ -4,7 +4,7 @@
 In project 3 we'll add a responsive form to allow users to create their own reviews. If the app is offline, your form will defer updating to the remote database until a connection is established. Users are now also able to mark a restaurant as a favorite. Finally, the site will be optimized to meet even stricter performance benchmarks than the previous project, these tests are done using Lighthouse.
 
 ## Project Requirements
-*Add a responsive form to allow users to create their own reviews.
+Add a responsive form to allow users to create their own reviews.
 Add functionality to defer updates until the user is connected.
 Users are able to mark a restaurant as a favorite.
 Minimum performance requirements.
