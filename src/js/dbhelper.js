@@ -58,10 +58,8 @@ class DBHelper {
       } else {
         fetch(`${DBHelper.DATABASE_URL}/restaurants`)
           .then((res) => {
-            debugger;
             return res.json();
           }).then((res) => {
-            debugger;
             const restaurants = res;
             restaurants.forEach((restaurant) => {
               if (restaurant.id) {
@@ -71,7 +69,7 @@ class DBHelper {
               if(restaurant.is_favorite === "false" ) {
                 const button = document.getElementById('favorite-button');
       
-                debugger; 
+
                 console.log('restaurant is faulse ' + restaurant.name)
               } else {
                 console.log('Restaurant is true ' + restaurant.name)
