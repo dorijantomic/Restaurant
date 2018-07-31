@@ -5,12 +5,12 @@ In project 3 we'll add a responsive form to allow users to create their own revi
 
 ## Project Requirements
 *Add a responsive form to allow users to create their own reviews.
-*Add functionality to defer updates until the user is connected.
-*Users are able to mark a restaurant as a favorite.
-*Minimum performance requirements.
-  *Performance: >90
-  *Progressive Web App: >90
-  *Accessibility: >90
+Add functionality to defer updates until the user is connected.
+Users are able to mark a restaurant as a favorite.
+Minimum performance requirements.
+  Performance: >90
+  Progressive Web App: >90
+  Accessibility: >90
 
 ## Official Style Guide
 This code adheres to the [Udacity Frontend Nanodegree Style Guide](https://udacity.github.io/frontend-nanodegree-styleguide/).
