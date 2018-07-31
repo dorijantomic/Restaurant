@@ -167,13 +167,10 @@ const createRestaurantHTML = (restaurant) => {
   }
    
   favoriteButton.onclick = function() {
-    debugger;
     if(navigator.onLine) {
       if(favoriteButton.value === 'false'  || favoriteButton.value === false) {
-        debugger;
         favoriteButton.value = 'true';
         favoriteButton.setAttribute('Aria-label', 'Remove from favorites')
-        debugger;
         fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=true`, {method: 'PUT'})
         .then((res)=> {return res.json})
         .then(() => {
@@ -182,7 +179,6 @@ const createRestaurantHTML = (restaurant) => {
           location.href=location.href})
         
       } else {
-        debugger;
         favoriteButton.value = 'false';
         favoriteButton.setAttribute('Aria-label', 'Set as favorite')
         fetch(`http://localhost:1337/restaurants/${restaurant.id}/?is_favorite=false`, {method: 'PUT'})
