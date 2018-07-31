@@ -2,9 +2,7 @@ const addReviewButton = document.getElementById('post-review-button');
 addReviewButton.addEventListener('click', addAndPostReview);
 
 function saveReviewsDataLocally(reviews) {
-  debugger;
   return dbPromise.then((db) => {
-    debugger;
     const tx = db.transaction('reviews', 'readwrite');
     const reviewsStore = tx.objectStore('reviews');
     reviews.forEach(review => reviewsStore.put(review))
@@ -15,7 +13,6 @@ function saveReviewsDataLocally(reviews) {
 
 function getLocalReviewsData() {
   return dbPromise.then((db) => {
-    debugger;
     const tx = db.transaction('reviews', 'readwrite');
     const reviewsStore = tx.objectStore('reviews');
     return reviewsStore.getAll()
@@ -23,7 +20,6 @@ function getLocalReviewsData() {
 }
 
 function addAndPostReview(e) {
-  debugger;
   e.preventDefault();
   const data = [{
     restaurant_id: window.location.search.slice(4),
@@ -101,7 +97,6 @@ function fillReviewsOnline() {
     const ul = document.getElementById('reviews-list');
     reviewsFromNetwork.forEach(review => {
       if (review.restaurant_id == window.location.search.slice(4)) {
-        debugger;
         const reviewDate = new Date(review.createdAt);
         ul.appendChild(createReviewHTML(review));
       } else {
@@ -125,15 +120,11 @@ function fillReviewsOnline() {
 // if the user is online fillReviewsOnline() is ran
 // if the user is offline fillReviewsOffline(reviews) is ran
 function fetchReviews() {
-  debugger;
   getLocalReviewsData()
   .then((reviews) => {
-    debugger;
     if(navigator.onLine) {
-      debugger;
       return fillReviewsOnline()
     } else {
-      debugger;
       return fillReviewsOffline(reviews)
     }
   })
