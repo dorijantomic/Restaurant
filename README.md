@@ -23,15 +23,7 @@ This code adheres to the [Udacity Frontend Nanodegree Style Guide](https://udaci
 Make sure the [Node development server](https://github.com/udacity/mws-restaurant-stage-2) is running.
 
 Clone or download the repository.
-Start up an HTTP server, you can use Python or Chrome extension [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en).
-
-Example using Python:
-
-```
-pipenv --python 3.6
-pipenv run python -m http.server 8000
-```
-
+CD into the folder location and run npm start to create a dist folder and install the needed dependencies and start a http-server.
 Open url [localhost:8000](localhost:8000) in your favorite browser.
 
 ## Where can I learn more?
