@@ -21,14 +21,7 @@ Make sure the [Node development server](https://github.com/udacity/mws-restauran
 Clone or download the repository.
 Start up an HTTP server, you can use Python or Chrome extension [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en).
 
-CD into the folder location and run npm start to create a dist folder and install the needed dependencies.
-
-Example using Python:
-
-```
-pipenv --python 3.6
-pipenv run python -m http.server 8000
-```
+CD into the folder location and run npm start to create a dist folder and install the needed dependencies and start a http-server.
 
 Open url [localhost:8000](localhost:8000) in your favorite browser.
 
